@@ -14,7 +14,6 @@ type userController struct {
 }
 
 func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from User Controller !!"))
 	if r.URL.Path == "/users" {
 		switch r.Method {
 		case http.MethodGet:
