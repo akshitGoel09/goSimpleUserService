@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/akshitGoel09/goSimpleUserService/models"
+	"github.com/akshitGoel09/goSimpleUserService/model"
 )
 
 func main() {
-	u := models.User{
+	u := model.User{
 		ID:        2,
 		FirstName: "Tricia",
 		LastName:  "McMillan",
