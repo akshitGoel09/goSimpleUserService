@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+
+	"github.com/akshitGoel09/goSimpleUserService/model"
 )
 
 type userController struct {
@@ -58,13 +60,13 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 }
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
-	u, err := uc.parseRequest(r)
+	ur, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Could not parse user object"))
 		return
 	}
-	u, err := model.AddUser(u)
+	u, err := model.AddUser(ur)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -74,18 +76,18 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
-	u, err := uc.parseRequest(r)
+	ur, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Could not parse user object"))
 		return
 	}
-	if id != u.ID {
+	if id != ur.ID {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("ID of submitted user must match ID in URL"))
 		return
 	}
-	u, err := model.UpdateUser(u)
+	u, err := model.UpdateUser(ur)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -105,9 +107,9 @@ func (uc *userController) delete(id int, w http.ResponseWriter) {
 }
 
 func (uc *userController) parseRequest(r *http.Request) (model.User, error) {
-	dev := json.NewDecoder(r.Body)
+	dec := json.NewDecoder(r.Body)
 	var u model.User
-	err := dec.decode(&u)
+	err := dec.Decode(&u)
 	if err != nil {
 		return model.User{}, err
 	}

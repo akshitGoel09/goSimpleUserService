@@ -52,7 +52,7 @@ func UpdateUser(u User) (User, error) {
 			return u, nil
 		}
 	}
-	return User{}, fmt.Errorf("User with ID '%v' not found", u.id)
+	return User{}, fmt.Errorf("User with ID '%v' not found", u.ID)
 }
 
 //RemoveUserByID removes user of given id
@@ -63,5 +63,5 @@ func RemoveUserByID(id int) error {
 			return nil
 		}
 	}
-	eturn User{}, fmt.Errorf("User with ID '%v' not found", id)
+	return fmt.Errorf("User with ID '%v' not found", id)
 }
